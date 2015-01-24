@@ -12,6 +12,9 @@ Visit the project page for more information: http://www.passwordstore.org/
 
 Please see the man page for documentation and examples.
 
+This is hacked version of password-store by Serpent7776
+https://github.com/serpent7776/password-store
+
 Depends on:
 - bash
   http://www.gnu.org/software/bash/

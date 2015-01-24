@@ -246,6 +246,8 @@ cmd_version() {
 	=             Jason A. Donenfeld           =
 	=               Jason@zx2c4.com            =
 	=                                          =
+	=            hacked by Serpent7776         =
+	=                                          =
 	=      http://www.passwordstore.org/       =
 	============================================
 	_EOF
@@ -381,7 +383,7 @@ cmd_show() {
 		else
 			echo "${path%\/}"
 		fi
-		tree -C -l --noreport "$PREFIX/$path" | tail -n +2 | sed -E 's/\.gpg(\x1B\[[0-9]+m)?( ->|$)/\1\2/g' # remove .gpg at end of line, but keep colors
+		( cd $PREFIX && find ./$path -type f -iname \*.gpg | sed -e 's/\.gpg$//' -e 's/^\.\///' )
 	elif [[ -z $path ]]; then
 		die "Error: password store is empty. Try \"pass init\"."
 	else
@@ -392,8 +394,8 @@ cmd_show() {
 cmd_find() {
 	[[ $# -eq 0 ]] && die "Usage: $PROGRAM $COMMAND pass-names..."
 	IFS="," eval 'echo "Search Terms: $*"'
-	local terms="*$(printf '%s*|*' "$@")"
-	tree -C -l --noreport -P "${terms%|*}" --prune --matchdirs --ignore-case "$PREFIX" | tail -n +2 | sed -E 's/\.gpg(\x1B\[[0-9]+m)?( ->|$)/\1\2/g'
+	local terms="$(printf '%s\\|' "$@")"
+	( cd $PREFIX && find ./ -type f | grep -e ".*\\(${terms%\\|}\\).*" | sed -e 's/\.gpg$//' -e 's/^\.\///' )
 }
 
 cmd_grep() {

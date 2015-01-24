@@ -1,0 +1,4 @@
+This file lists all changes compared to upstream version
+
+- ls/show command list passwords using find instead of tree
+- find command also list passwords using find

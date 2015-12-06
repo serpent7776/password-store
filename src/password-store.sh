@@ -378,7 +378,7 @@ cmd_show() {
 			fi
 		fi
 	elif [[ -d $PREFIX/$path ]]; then
-		( cd $PREFIX && find ./$path -type f -iname \*.gpg | sed -e 's/\.gpg$//' -e 's/^\.\///' )
+		( cd $PREFIX && find -s ./$path -type f -iname \*.gpg | sed -e 's/\.gpg$//' -e 's/^\.\///' )
 	elif [[ -z $path ]]; then
 		die "Error: password store is empty. Try \"pass init\"."
 	else
@@ -389,7 +389,7 @@ cmd_show() {
 cmd_find() {
 	[[ $# -eq 0 ]] && die "Usage: $PROGRAM $COMMAND pass-names..."
 	local terms="$(printf '%s\\|' "$@")"
-	( cd $PREFIX && find ./ -type f | grep -e ".*\\(${terms%\\|}\\).*" | sed -e 's/\.gpg$//' -e 's/^\.\///' )
+	( cd $PREFIX && find -s ./ -type f | grep -e ".*\\(${terms%\\|}\\).*" | sed -e 's/\.gpg$//' -e 's/^\.\///' )
 }
 
 cmd_grep() {
